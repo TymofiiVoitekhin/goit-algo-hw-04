@@ -43,12 +43,20 @@ def timsort(arr):
 
 def benchmark():
     sizes = [1_000, 5_000, 10_000]
+    results = []
+
     for size in sizes:
         arr = [random.randint(0, 100_000) for _ in range(size)]
-        print(f"\n🔹 Тестування для масиву розміром {size}:")
-        print("InsertionSort:", timeit.timeit(lambda: insertion_sort(arr.copy()), number=1))
-        print("MergeSort:", timeit.timeit(lambda: merge_sort(arr.copy()), number=1))
-        print("Timsort (sorted):", timeit.timeit(lambda: timsort(arr.copy()), number=1))
+        insertion_time = timeit.timeit(lambda: insertion_sort(arr.copy()), number=1)
+        merge_time = timeit.timeit(lambda: merge_sort(arr.copy()), number=1)
+        timsort_time = timeit.timeit(lambda: timsort(arr.copy()), number=1)
+        results.append((size, insertion_time, merge_time, timsort_time))
+
+    # Вивід у форматі Markdown
+    print("| Розмір масиву | Insertion Sort (сек) | Merge Sort (сек) | Timsort (сек) |")
+    print("|---------------|----------------------|------------------|---------------|")
+    for size, ins, mer, tim in results:
+        print(f"| {size: <10} | {ins: <15} | {mer: <15} | {tim: <15} |")
 
 
 if __name__ == "__main__":
